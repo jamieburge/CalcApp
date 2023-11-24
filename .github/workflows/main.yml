@@ -1,1 +1,31 @@
+name: Node.js CI
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [14]  # You can specify multiple Node.js versions here if needed
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: |
+        npm install -g mocha
+        npm install chai
+        npm install chai-http
+        npm install express
+
+    - name: Run tests
+      run: mocha  # You can adjust this command based on how your tests are set up
